@@ -28,12 +28,16 @@ public protocol IViewController {
 
 public class NavigationEvent<T: IViewController> {
  
-    public typealias NavigationObserver = (T, Any?) -> Void
+    public typealias NavigationObserver = (NavigationEvent<T>) -> Void
     
     private(set) var observer: NavigationObserver?
     
     private(set) var location: LocationOption<T>?
 
+    public var data: Any?
+    
+    public var controller: T!
+    
     private var value: T? {
         guard let option = location else { return nil }
         switch option {
@@ -61,7 +65,9 @@ extension NavigationEvent: IEvent  {
     var isValid: Bool { return value != nil }
     
     func notifyObserver(data: Any?) {
-        observer?(value!, data)
+        controller = value!
+        self.data = data
+        observer?(self)
     }
 }
 

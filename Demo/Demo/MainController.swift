@@ -57,11 +57,11 @@ class MainController {
         
         manager
             .map(ids: Route.root,
-                 location: .type(ViewController.self)) { (controller, data) in
+                 location: .type(ViewController.self)) { (event) in
                         
             }
             .map(ids: Route.screenOne,
-                  location: .type(TestViewController.self)) { (controller, data) in
+                  location: .type(TestViewController.self)) { (event) in
                 
         }
         
