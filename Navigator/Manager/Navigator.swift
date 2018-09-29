@@ -12,6 +12,8 @@ public protocol IPathIdentifier {
     var stringIdentifier: String { get }
 }
 
+
+
 public class Navigator {
     
     public typealias PathNotFoundObserver = (IPathIdentifier, Any?) -> Void
@@ -26,26 +28,22 @@ public class Navigator {
         return events.map( { "\($0.key) => \($0.value.detail ?? "")" })
     }
     
-    public func mapPathNotFound(observer: PathNotFoundObserver?) {
+    @discardableResult
+    public func mapPathNotFound(observer: PathNotFoundObserver?) -> Self {
         onPathNotFound = observer
+        return self
     }
     
+    @discardableResult
     public func map<T: IViewController>(ids: [IPathIdentifier],
-                                        location: T,
-                                        observer: NavigationEvent<T>.NavigationObserver?) {
-        let event = NavigationEvent<T>(instance: location, observer: observer)
+                                        location: LocationOption<T>,
+                                        observer: NavigationEvent<T>.NavigationObserver?) -> Self {
+        
+        let event = NavigationEvent(location: location, observer: observer)
         ids.forEach { (id) in
             events[id.stringIdentifier] = event
         }
-    }
-    
-    public func map<T: IViewController>(ids: [IPathIdentifier],
-                                        location: T.Type,
-                                        observer: NavigationEvent<T>.NavigationObserver?) {
-        let event = NavigationEvent<T>(type: location, observer: observer)
-        ids.forEach { (id) in
-            events[id.stringIdentifier] = event
-        }
+        return self
     }
     
     public func navigate(id: IPathIdentifier, data: Any?) {

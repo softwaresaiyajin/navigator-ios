@@ -8,6 +8,11 @@
 
 import Foundation
 
+public enum LocationOption<T> {
+    case instance(T)
+    case type(T.Type)
+}
+
 protocol IEvent {
     
     var detail: Any? { get }
@@ -18,10 +23,8 @@ protocol IEvent {
 }
 
 public protocol IViewController {
-    
     static func create() -> UIViewController
 }
-
 
 public class NavigationEvent<T: IViewController> {
  
@@ -29,25 +32,18 @@ public class NavigationEvent<T: IViewController> {
     
     private(set) var observer: NavigationObserver?
     
-    private(set) var instance: T?
-    
-    private(set) var type: T.Type?
-    
+    private(set) var location: LocationOption<T>?
+
     private var value: T? {
-        return instance ?? type?.create() as? T
+        guard let option = location else { return nil }
+        switch option {
+        case .instance(let value): return value
+        case .type(let value): return value.create() as? T
+        }
     }
     
-    init(instance: T, observer: NavigationObserver?) {
-        self.instance = instance
-        setObserver(observer)
-    }
-    
-    init(type: T.Type, observer: NavigationObserver?) {
-        self.type = type
-        setObserver(observer)
-    }
-    
-    fileprivate func setObserver(_ observer: NavigationObserver?) {
+    init(location: LocationOption<T>, observer: NavigationObserver?) {
+        self.location = location
         self.observer = observer
     }
 }
@@ -55,9 +51,11 @@ public class NavigationEvent<T: IViewController> {
 extension NavigationEvent: IEvent  {
     
     var detail: Any? {
-        if let value = instance { return value }
-        else if let value = type {  return "\(value).self" }
-        return nil
+        guard let option = location else { return nil }
+        switch option {
+        case .instance(let value): return value
+        case .type(let value): return "\(value).self"
+        }
     }
     
     var isValid: Bool { return value != nil }
