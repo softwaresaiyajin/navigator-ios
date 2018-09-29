@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24276A0B215F850600DC994E /* NavigationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24276A0A215F850600DC994E /* NavigationEvent.swift */; };
+		24276A0D215F85C400DC994E /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24276A0C215F85C400DC994E /* Navigator.swift */; };
 		245EF699215F7DF80050B363 /* Navigator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245EF68F215F7DF70050B363 /* Navigator.framework */; };
 		245EF69E215F7DF80050B363 /* NavigatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245EF69D215F7DF80050B363 /* NavigatorTests.swift */; };
 		245EF6A0215F7DF80050B363 /* Navigator.h in Headers */ = {isa = PBXBuildFile; fileRef = 245EF692215F7DF70050B363 /* Navigator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,6 +25,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		24276A0A215F850600DC994E /* NavigationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationEvent.swift; sourceTree = "<group>"; };
+		24276A0C215F85C400DC994E /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		245EF68F215F7DF70050B363 /* Navigator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Navigator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		245EF692215F7DF70050B363 /* Navigator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Navigator.h; sourceTree = "<group>"; };
 		245EF693215F7DF70050B363 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,6 +54,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24276A07215F847200DC994E /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				24276A0C215F85C400DC994E /* Navigator.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		24276A08215F847C00DC994E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				24276A0A215F850600DC994E /* NavigationEvent.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		24276A09215F848500DC994E /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		245EF685215F7DF70050B363 = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +98,9 @@
 		245EF691215F7DF70050B363 /* Navigator */ = {
 			isa = PBXGroup;
 			children = (
+				24276A09215F848500DC994E /* Helper */,
+				24276A08215F847C00DC994E /* Model */,
+				24276A07215F847200DC994E /* Manager */,
 				245EF692215F7DF70050B363 /* Navigator.h */,
 				245EF693215F7DF70050B363 /* Info.plist */,
 			);
@@ -197,6 +227,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24276A0B215F850600DC994E /* NavigationEvent.swift in Sources */,
+				24276A0D215F85C400DC994E /* Navigator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,6 +410,7 @@
 		245EF6A7215F7DF80050B363 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = NavigatorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -391,6 +424,7 @@
 		245EF6A8215F7DF80050B363 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = NavigatorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
