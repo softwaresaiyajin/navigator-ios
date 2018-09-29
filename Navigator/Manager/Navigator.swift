@@ -46,7 +46,7 @@ public class Navigator {
         return self
     }
     
-    public func navigate(id: IPathIdentifier, data: Any?) {
+    public func navigate(id: IPathIdentifier, data: Any? = nil) {
         
         guard let location = events[id.stringIdentifier],
             location.isValid else {

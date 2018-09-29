@@ -34,9 +34,9 @@ public class NavigationEvent<T: IViewController> {
     
     private(set) var location: LocationOption<T>?
 
-    public var data: Any?
+    public private(set) var data: Any?
     
-    public var controller: T!
+    public private(set) var controller: T!
     
     private var value: T? {
         guard let option = location else { return nil }

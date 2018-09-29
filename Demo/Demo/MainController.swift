@@ -49,6 +49,9 @@ class MainController {
     
     fileprivate func setup(window: UIWindow) {
         self.window = window
+        setupRouteMapping()
+        
+        Navigator.shared.navigate(id: Route.root.first ?? "")
     }
     
     fileprivate func setupRouteMapping() {
@@ -57,8 +60,10 @@ class MainController {
         
         manager
             .map(ids: Route.root,
-                 location: .type(ViewController.self)) { (event) in
-                        
+                 location: .type(ViewController.self)) { [weak self] (event) in
+                
+                    let navigation = UINavigationController(rootViewController: event.controller)
+                    self?.window.rootViewController = navigation
             }
             .map(ids: Route.screenOne,
                   location: .type(TestViewController.self)) { (event) in
