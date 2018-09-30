@@ -13,26 +13,29 @@ import Navigator
 struct Route {
     
     static let dismiss = ["/"]
-    static let root: [IPathIdentifier] = ["/root"]
-    static let screenOne: [IPathIdentifier] = ["/screenOne"]
+    static let root = ["/root"]
+    static let screenOne = ["/screenOne"]
     static let screenTwo = ["/screenTwo"]
+    static let openUrl = ["/openUrl"]
     
 }
 
-extension String: IPathIdentifier {
-    public var stringIdentifier: String { return self }
+extension URL: INavigatable {
+    public static func create() -> Any? {
+        return nil
+    }
 }
 
-extension ViewController: IViewController {
+extension ViewController: INavigatable {
     
-    static func create() -> UIViewController {
+    static func create() -> Any? {
         return ViewController()
     }
 }
 
-extension TestViewController: IViewController {
+extension TestViewController: INavigatable {
     
-    static func create() -> UIViewController {
+    static func create() -> Any? {
         return TestViewController()
     }
 }
@@ -58,16 +61,23 @@ class MainController {
         
         let manager = Navigator.shared
         
+        
+        
         manager
-            .map(ids: Route.root,
-                 location: .type(ViewController.self)) { [weak self] (event) in
+            .map(ids: Route.root, location: .type(ViewController.self)){
+                [weak self] (event) in
                 
-                    let navigation = UINavigationController(rootViewController: event.controller)
+                    let navigation = UINavigationController(rootViewController: event.destination)
                     self?.window.rootViewController = navigation
             }
-            .map(ids: Route.screenOne,
-                  location: .type(TestViewController.self)) { (event) in
-                
+            .map(ids: Route.screenOne, location: .type(TestViewController.self)) {
+                (event) in
+            }
+            .map(ids: Route.openUrl, location: .instance(URL(string: "https://www.google.com")!)) {
+                (event) in
+                UIApplication.shared.open(event.destination,
+                                          options: [:],
+                                          completionHandler: nil)
         }
         
         manager

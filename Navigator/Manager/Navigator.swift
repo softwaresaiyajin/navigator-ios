@@ -8,15 +8,9 @@
 
 import Foundation
 
-public protocol IPathIdentifier {
-    var stringIdentifier: String { get }
-}
-
-
-
 public class Navigator {
     
-    public typealias PathNotFoundObserver = (IPathIdentifier, Any?) -> Void
+    public typealias PathNotFoundObserver = (String, Any?) -> Void
     
     private var onPathNotFound: PathNotFoundObserver?
     
@@ -35,20 +29,20 @@ public class Navigator {
     }
     
     @discardableResult
-    public func map<T>(ids: [IPathIdentifier],
+    public func map<T>(ids: [String],
                        location: NavigationEvent<T>.LocationOption,
                        observer: NavigationEvent<T>.NavigationObserver?) -> Self {
         
         let event = NavigationEvent(location: location, observer: observer)
         ids.forEach { (id) in
-            events[id.stringIdentifier] = event
+            events[id] = event
         }
         return self
     }
     
-    public func navigate(id: IPathIdentifier, data: Any? = nil) {
+    public func navigate(id: String, data: Any? = nil) {
         
-        guard let location = events[id.stringIdentifier],
+        guard let location = events[id],
             location.isValid else {
             onPathNotFound?(id, data)
             return

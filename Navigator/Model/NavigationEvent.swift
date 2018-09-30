@@ -17,18 +17,18 @@ protocol IEvent {
     func notifyObserver(data: Any?)
 }
 
-public protocol IViewController {
-    static func create() -> UIViewController
+public protocol INavigatable {
+    static func create() -> Any?
 }
 
-public class NavigationEvent<T: IViewController> {
+public class NavigationEvent<Destination: INavigatable> {
  
     public enum LocationOption {
-        case instance(T)
-        case type(T.Type)
+        case instance(Destination)
+        case type(Destination.Type)
     }
     
-    public typealias NavigationObserver = (NavigationEvent<T>) -> Void
+    public typealias NavigationObserver = (NavigationEvent<Destination>) -> Void
     
     private(set) var observer: NavigationObserver?
     
@@ -36,13 +36,13 @@ public class NavigationEvent<T: IViewController> {
 
     public private(set) var data: Any?
     
-    public private(set) var controller: T!
+    public private(set) var destination: Destination!
     
-    private var value: T? {
+    private var value: Destination? {
         guard let option = location else { return nil }
         switch option {
         case .instance(let value): return value
-        case .type(let value): return value.create() as? T
+        case .type(let value): return value.create() as? Destination
         }
     }
     
@@ -65,7 +65,7 @@ extension NavigationEvent: IEvent  {
     var isValid: Bool { return value != nil }
     
     func notifyObserver(data: Any?) {
-        controller = value!
+        destination = value!
         self.data = data
         observer?(self)
     }
