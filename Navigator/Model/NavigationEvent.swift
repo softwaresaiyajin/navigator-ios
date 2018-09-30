@@ -8,11 +8,6 @@
 
 import Foundation
 
-public enum LocationOption<T> {
-    case instance(T)
-    case type(T.Type)
-}
-
 protocol IEvent {
     
     var detail: Any? { get }
@@ -28,11 +23,16 @@ public protocol IViewController {
 
 public class NavigationEvent<T: IViewController> {
  
+    public enum LocationOption {
+        case instance(T)
+        case type(T.Type)
+    }
+    
     public typealias NavigationObserver = (NavigationEvent<T>) -> Void
     
     private(set) var observer: NavigationObserver?
     
-    private(set) var location: LocationOption<T>?
+    private(set) var location: LocationOption?
 
     public private(set) var data: Any?
     
@@ -46,7 +46,7 @@ public class NavigationEvent<T: IViewController> {
         }
     }
     
-    init(location: LocationOption<T>, observer: NavigationObserver?) {
+    init(location: LocationOption, observer: NavigationObserver?) {
         self.location = location
         self.observer = observer
     }

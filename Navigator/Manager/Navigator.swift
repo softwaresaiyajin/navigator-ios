@@ -36,7 +36,7 @@ public class Navigator {
     
     @discardableResult
     public func map<T>(ids: [IPathIdentifier],
-                       location: LocationOption<T>,
+                       location: NavigationEvent<T>.LocationOption,
                        observer: NavigationEvent<T>.NavigationObserver?) -> Self {
         
         let event = NavigationEvent(location: location, observer: observer)
