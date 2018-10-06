@@ -12,9 +12,7 @@ protocol IEvent {
     
     var detail: Any? { get }
     
-    var isValid: Bool { get }
-    
-    func notifyObserver(data: Any?)
+    func notifyObserver(data: Any?) -> Bool
 }
 
 public protocol INavigatable {
@@ -62,12 +60,12 @@ extension NavigationEvent: IEvent  {
         }
     }
     
-    var isValid: Bool { return value != nil }
-    
-    func notifyObserver(data: Any?) {
-        destination = value!
+    func notifyObserver(data: Any?) -> Bool {
+        guard let _value = value else { return false }
+        destination = _value
         self.data = data
         observer?(self)
+        return true
     }
 }
 

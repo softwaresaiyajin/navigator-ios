@@ -66,7 +66,6 @@ class MainController {
         manager
             .map(ids: Route.root, location: .type(ViewController.self)){
                 [weak self] (event) in
-                
                     let navigation = UINavigationController(rootViewController: event.destination)
                     self?.window.rootViewController = navigation
             }

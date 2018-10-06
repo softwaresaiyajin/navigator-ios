@@ -42,13 +42,11 @@ public class Navigator {
     
     public func navigate(id: String, data: Any? = nil) {
         
-        guard let location = events[id],
-            location.isValid else {
+        let location = events[id]
+        let isValid = location?.notifyObserver(data: data) ?? false
+        if !isValid {
             onPathNotFound?(id, data)
-            return
         }
-        location.notifyObserver(data: data)
-        
     }
 }
 
