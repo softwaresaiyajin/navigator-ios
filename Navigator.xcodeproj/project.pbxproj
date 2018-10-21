@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		240B6AC7217C361900A578EF /* CustomLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240B6AC6217C361900A578EF /* CustomLocation.swift */; };
 		24276A0B215F850600DC994E /* NavigationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24276A0A215F850600DC994E /* NavigationEvent.swift */; };
 		24276A0D215F85C400DC994E /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24276A0C215F85C400DC994E /* Navigator.swift */; };
 		245EF699215F7DF80050B363 /* Navigator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245EF68F215F7DF70050B363 /* Navigator.framework */; };
@@ -25,6 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		240B6AC6217C361900A578EF /* CustomLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLocation.swift; sourceTree = "<group>"; };
 		24276A0A215F850600DC994E /* NavigationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationEvent.swift; sourceTree = "<group>"; };
 		24276A0C215F85C400DC994E /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		245EF68F215F7DF70050B363 /* Navigator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Navigator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				24276A0A215F850600DC994E /* NavigationEvent.swift */,
+				240B6AC6217C361900A578EF /* CustomLocation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			files = (
 				24276A0B215F850600DC994E /* NavigationEvent.swift in Sources */,
 				24276A0D215F85C400DC994E /* Navigator.swift in Sources */,
+				240B6AC7217C361900A578EF /* CustomLocation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,76 +14,50 @@ struct Route {
     
     static let dismiss = ["/"]
     static let root = ["/root"]
-    static let screenOne = ["/screenOne"]
-    static let screenTwo = ["/screenTwo"]
+    static let detail = ["/screenTwo"]
     static let openUrl = ["/openUrl"]
     
 }
-
-extension URL: INavigatable {
-    public static func create() -> Any? {
-        return nil
-    }
-}
-
-extension ViewController: INavigatable {
-    
-    static func create() -> Any? {
-        return ViewController()
-    }
-}
-
-extension TestViewController: INavigatable {
-    
-    static func create() -> Any? {
-        return TestViewController()
-    }
-}
-
 
 class MainController {
     
     private(set) var window: UIWindow!
     
-    static func launch(window: UIWindow) {
+    @discardableResult
+    static func launch(window: UIWindow) -> MainController {
         let controller = MainController()
         controller.setup(window: window)
+        return controller
     }
     
     fileprivate func setup(window: UIWindow) {
         self.window = window
         setupRouteMapping()
-        
-        Navigator.shared.navigate(id: Route.root.first ?? "")
+        Navigator.shared.navigate(id: Route.root.first)
     }
     
     fileprivate func setupRouteMapping() {
         
-        let manager = Navigator.shared
-        
-        
-        
-        manager
-            .map(ids: Route.root, location: .type(ViewController.self)){
-                [weak self] (event) in
-                    let navigation = UINavigationController(rootViewController: event.destination)
-                    self?.window.rootViewController = navigation
-            }
-            .map(ids: Route.screenOne, location: .type(TestViewController.self)) {
+        Navigator.shared
+            .map(ids: Route.root, location: ViewController.self) { [weak self] (event) in
+                
+                event.destination.title = "Master"
+                let navigation = UINavigationController(rootViewController: event.destination)
+                self?.window.rootViewController = navigation
+            
+            }.map(ids: Route.detail, location: TestViewController.self) { [weak self] (event) in
+                
+                guard let navcon = self?.window.rootViewController as? UINavigationController else { return }
+                event.destination.title = "Detail"
+                navcon.pushViewController(event.destination, animated: true)
+                
+            }.map(ids: Route.openUrl, location: CustomLocation(value: URL(string: "https://www.google.com"))) {
                 (event) in
-            }
-            .map(ids: Route.openUrl, location: .instance(URL(string: "https://www.google.com")!)) {
-                (event) in
-                UIApplication.shared.open(event.destination,
+                
+                guard let url = event.destination.value else { return }
+                UIApplication.shared.open(url,
                                           options: [:],
                                           completionHandler: nil)
         }
-        
-        manager
-            .mapPathNotFound(observer: { (_, _) in
-            
-            })
-        
     }
-    
 }

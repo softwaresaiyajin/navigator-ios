@@ -10,7 +10,7 @@ import Foundation
 
 public class Navigator {
     
-    public typealias PathNotFoundObserver = (String, Any?) -> Void
+    public typealias PathNotFoundObserver = (String?, Any?) -> Void
     
     private var onPathNotFound: PathNotFoundObserver?
     
@@ -30,9 +30,27 @@ public class Navigator {
     
     @discardableResult
     public func map<T>(ids: [String],
-                       location: NavigationEvent<T>.LocationOption,
+                       location: T,
                        observer: NavigationEvent<T>.NavigationObserver?) -> Self {
         
+        return map(ids: ids,
+                   location: .instance(location),
+                   observer: observer)
+    }
+    
+    @discardableResult
+    public func map<T>(ids: [String],
+                       location: T.Type,
+                       observer: NavigationEvent<T>.NavigationObserver?) -> Self {
+
+        return map(ids: ids,
+                   location: .type(location),
+                   observer: observer)
+    }
+    
+    fileprivate func map<T>(ids: [String],
+                            location: NavigationEvent<T>.LocationOption,
+                            observer: NavigationEvent<T>.NavigationObserver?) -> Self {
         let event = NavigationEvent(location: location, observer: observer)
         ids.forEach { (id) in
             events[id] = event
@@ -40,24 +58,17 @@ public class Navigator {
         return self
     }
     
-    public func navigate(id: String, data: Any? = nil) {
+    public func navigate(id: String?, isAnimated: Bool = true, data: Any? = nil) {
         
-        let location = events[id]
-        let isValid = location?.notifyObserver(data: data) ?? false
-        if !isValid {
+        guard let identifier = id else {
             onPathNotFound?(id, data)
+            return
+        }
+        
+        let location = events[identifier]
+        let isValid = location?.notifyObserver(data: data, isAnimated: isAnimated) ?? false
+        if !isValid {
+            onPathNotFound?(identifier, data)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

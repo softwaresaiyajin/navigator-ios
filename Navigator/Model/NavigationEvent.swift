@@ -12,16 +12,12 @@ protocol IEvent {
     
     var detail: Any? { get }
     
-    func notifyObserver(data: Any?) -> Bool
+    func notifyObserver(data: Any?, isAnimated: Bool) -> Bool
 }
 
-public protocol INavigatable {
-    static func create() -> Any?
-}
-
-public class NavigationEvent<Destination: INavigatable> {
+public class NavigationEvent<Destination: NSObject> {
  
-    public enum LocationOption {
+    indirect enum LocationOption {
         case instance(Destination)
         case type(Destination.Type)
     }
@@ -36,11 +32,13 @@ public class NavigationEvent<Destination: INavigatable> {
     
     public private(set) var destination: Destination!
     
+    public private(set) var isAnimated: Bool = true
+    
     private var value: Destination? {
         guard let option = location else { return nil }
         switch option {
         case .instance(let value): return value
-        case .type(let value): return value.create() as? Destination
+        case .type(let value): return value.init()
         }
     }
     
@@ -60,9 +58,10 @@ extension NavigationEvent: IEvent  {
         }
     }
     
-    func notifyObserver(data: Any?) -> Bool {
+    func notifyObserver(data: Any?, isAnimated: Bool) -> Bool {
         guard let _value = value else { return false }
         destination = _value
+        self.isAnimated = isAnimated
         self.data = data
         observer?(self)
         return true
