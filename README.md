@@ -5,7 +5,7 @@ Navigator is a routing service framework used to remove navigation logic inside 
  - Flexible presentation by delegation presentation logic to routing observer
  - Universal link compatible
 
-# Usage - Registration
+# Route Mapping
 
  - Define an array of string identfiers for each location in your application because most often than not, a screen needs to be navigated by more than one screen.
  ```
@@ -22,7 +22,7 @@ Navigator is a routing service framework used to remove navigation logic inside 
 ```
 Navigator.shared
     .map(ids: Route.root, location: ViewController()) { [weak self] (event) in
-         event.destination.title = "Master"
+        event.destination.title = "Master"
         let navigation = UINavigationController(rootViewController: event.destination)
         self?.window.rootViewController = navigation
 }
@@ -52,3 +52,13 @@ Navigator.shared
                                   completionHandler: nil)
        }
 ```
+
+# Navigation
+
+- Trigger the navigation event block
+```
+Navigator.shared.navigate(id: Route.root.first, isAnimated: true, data: "Hello World")
+```
+
+# To Do
+- Support dynamic url parsing to get route parameters
